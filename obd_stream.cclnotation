@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<com.sybase.cep.studio.emf.notation:NotationModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.sybase.cep.studio.emf.notation="http://com.sybase.cep.studio.emf.notation">
+  <diagrams title="Diagram">
+    <semanticElement href="obd_stream.ccl#/"/>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" style="2" diagram="//@diagrams.0" xLoc="41" yLoc="140" width="-1" height="-1">
+      <semanticElement href="obd_stream.ccl#OBD_DataStream"/>
+      <outgoingConnectors target="//@diagrams.0/@children.2"/>
+    </children>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" style="6" diagram="//@diagrams.0" xLoc="40" yLoc="450" width="-1" height="-1">
+      <semanticElement href="obd_stream.ccl#PID_Master"/>
+      <outgoingConnectors target="//@diagrams.0/@children.2"/>
+    </children>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" style="44" diagram="//@diagrams.0" xLoc="394" yLoc="93" width="-1" height="-1" incomingConnectors="//@diagrams.0/@children.0/@outgoingConnectors.0 //@diagrams.0/@children.1/@outgoingConnectors.0 //@diagrams.0/@children.6/@outgoingConnectors.0">
+      <semanticElement href="obd_stream.ccl#MySensorData"/>
+      <outgoingConnectors target="//@diagrams.0/@children.3"/>
+    </children>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" style="36" diagram="//@diagrams.0" xLoc="728" yLoc="93" width="-1" height="-1" incomingConnectors="//@diagrams.0/@children.2/@outgoingConnectors.0">
+      <semanticElement href="obd_stream.ccl#SensorDataCompute"/>
+      <outgoingConnectors target="//@diagrams.0/@children.4"/>
+    </children>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" style="22" diagram="//@diagrams.0" xLoc="1001" yLoc="93" width="-1" height="-1" incomingConnectors="//@diagrams.0/@children.3/@outgoingConnectors.0">
+      <semanticElement href="obd_stream.ccl#PID_Splitter"/>
+      <outgoingConnectors target="//@diagrams.0/@children.5"/>
+      <outgoingConnectors target="//@diagrams.0/@children.8"/>
+    </children>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" diagram="//@diagrams.0" xLoc="1308" yLoc="148" width="-1" height="-1" incomingConnectors="//@diagrams.0/@children.4/@outgoingConnectors.0 //@diagrams.0/@children.7/@outgoingConnectors.0">
+      <semanticElement href="obd_stream.ccl#R9_Output"/>
+    </children>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" style="2" diagram="//@diagrams.0" xLoc="728" yLoc="668" width="-1" height="-1">
+      <semanticElement href="obd_stream.ccl#MySensorData_Output_OData"/>
+      <outgoingConnectors style="4" target="//@diagrams.0/@children.2"/>
+    </children>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" style="2" diagram="//@diagrams.0" xLoc="1519" yLoc="66" width="-1" height="-1">
+      <semanticElement href="obd_stream.ccl#DataR9_Output_OData"/>
+      <outgoingConnectors style="4" target="//@diagrams.0/@children.5"/>
+    </children>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" diagram="//@diagrams.0" xLoc="1309" yLoc="300" width="-1" height="-1" incomingConnectors="//@diagrams.0/@children.4/@outgoingConnectors.1 //@diagrams.0/@children.9/@outgoingConnectors.0">
+      <semanticElement href="obd_stream.ccl#F4_Output"/>
+    </children>
+    <children xsi:type="com.sybase.cep.studio.emf.notation:Node" style="2" diagram="//@diagrams.0" xLoc="1519" yLoc="262" width="-1" height="-1">
+      <semanticElement href="obd_stream.ccl#DataF4_Output_OData"/>
+      <outgoingConnectors style="4" target="//@diagrams.0/@children.8"/>
+    </children>
+  </diagrams>
+  <semanticElement href="obd_stream.ccl#/"/>
+</com.sybase.cep.studio.emf.notation:NotationModel>

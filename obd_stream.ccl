@@ -1,0 +1,71 @@
+CREATE INPUT STREAM OBD_DataStream 
+SCHEMA ( DATA_ID integer, 
+		 TRIP_ID integer, 
+		 OBD_PID string, 
+		 DATA string, 
+		 TIMESTAMP string ) PRIMARY KEY ( DATA_ID ) ;
+		 
+CREATE REFERENCE PID_Master SCHEMA (
+	OBD_PID   string ,
+	PID_NAME   string ) PRIMARY KEY ( OBD_PID )
+PROPERTIES
+	service 		= 'hxe' ,
+	source 			= 'PID_MASTER' ,
+	sourceSchema 	= 'OBD_INFO' ,
+	cachePolicy 	= 'NONE' ;
+		
+CREATE OUTPUT STREAM MySensorData
+AS
+	SELECT
+		OBD_DataStream.DATA_ID 		DATA_ID ,
+		OBD_DataStream.TRIP_ID 		TRIP_ID ,
+		OBD_DataStream.OBD_PID 		OBD_PID ,
+		OBD_DataStream.DATA 		DATA ,
+		OBD_DataStream.TIMESTAMP 	TIMESTAMP ,
+		PID_Master.PID_NAME 		PID_NAME 
+	FROM OBD_DataStream JOIN PID_Master 
+	ON OBD_DataStream.OBD_PID = PID_Master.OBD_PID ;
+
+
+CREATE OUTPUT STREAM SensorDataCompute 
+AS
+SELECT
+		MySensorData.DATA_ID ID ,
+		MySensorData.OBD_PID PID ,
+		MySensorData.DATA DATA 
+FROM MySensorData ;
+
+CREATE OUTPUT SPLITTER PID_Splitter
+AS
+	WHEN  SensorDataCompute.PID = 'R9' AND SensorDataCompute.DATA > '50.0' THEN R9_Output 
+	WHEN SensorDataCompute.PID = 'F4' THEN F4_Output
+	SELECT
+	SensorDataCompute.ID 	ID ,
+	SensorDataCompute.PID 	PID ,
+	SensorDataCompute.DATA 	DATA 
+	FROM SensorDataCompute ;
+
+
+ATTACH OUTPUT ADAPTER MySensorData_Output_OData TYPE toolkit_http_json_output
+TO MySensorData
+PROPERTIES
+	    requestUrl 			= 'https://hxehost:51053/odata/SensorDataAll.xsodata/SensorDataAll' ,
+	    jsonColsMappingList = 'DATA_ID,TRIP_ID,OBD_PID,DATA,TIMESTAMP,PID_NAME' ,
+	    OutputBase 			= TRUE ,
+	    csrfTokenFetchUrl 	= 'https://hxehost:51053/odata/SensorDataAll.xsodata/SensorDataAll' ;
+	    
+ATTACH OUTPUT ADAPTER DataR9_Output_OData TYPE toolkit_http_json_output
+TO R9_Output
+PROPERTIES
+	    requestUrl 			= 'https://hxehost:51053/odata/SensorDataAll.xsodata/DataR9' ,
+	    jsonColsMappingList = 'ID,PID,DATA' ,
+	    OutputBase 			= TRUE ,
+	    csrfTokenFetchUrl 	= 'https://hxehost:51053/odata/SensorDataAll.xsodata/DataR9' ;
+	    
+ATTACH OUTPUT ADAPTER DataF4_Output_OData TYPE toolkit_http_json_output
+TO F4_Output
+PROPERTIES
+	    requestUrl 			= 'https://hxehost:51053/odata/SensorDataAll.xsodata/DataF4' ,
+	    jsonColsMappingList = 'ID,PID,DATA' ,
+	    OutputBase 			= TRUE ,
+	    csrfTokenFetchUrl 	= 'https://hxehost:51053/odata/SensorDataAll.xsodata/DataF4' ;
